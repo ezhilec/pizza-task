@@ -6,8 +6,11 @@ class Header extends React.Component {
         return (
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="#">Fixed navbar</a>
+                    <div className="container">
+                        <Link className="navbar-brand" to="/">
+                            <img src="/images/logo.png" alt=""/>
+                            Pizza task
+                        </Link>
                         <button className="navbar-toggler"
                                 type="button"
                                 data-toggle="collapse"
@@ -24,10 +27,18 @@ class Header extends React.Component {
                                     to="/"
                                     label="Catalog"
                                 />
-                                <NavLi to="/delivery" label="Delivery" />
-                                <NavLi to="/about" label="About" />
-                                <NavLi to="/cart" label="Cart" />
+                                <NavLi to="/delivery" label="Delivery"/>
+                                <NavLi to="/about" label="About"/>
                             </ul>
+                        </div>
+
+                        <div className="header-right-actions d-flex">
+                            <Link to="/cart" className="cart-button btn btn-outline-light mr-4 d-flex">
+                                <img src="/images/shopping-cart.svg" className={'mr-1'} alt=""/>
+                                Cart
+                                <span className="badge rounded-pill bg-success ml-1">0</span>
+                            </Link>
+                            <a href="#" className="btn btn-success">Login</a>
                         </div>
                     </div>
                 </nav>
@@ -36,7 +47,7 @@ class Header extends React.Component {
     }
 }
 
-function NavLi({ label, to, activeOnlyWhenExact }) {
+function NavLi({label, to, activeOnlyWhenExact}) {
     let match = useRouteMatch({
         path: to,
         exact: activeOnlyWhenExact

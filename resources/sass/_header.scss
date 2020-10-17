@@ -1,0 +1,16 @@
+header {
+    .navbar-brand {
+        img {
+            width: 32px;
+        }
+    }
+
+    .header-right-actions {
+        .cart-button {
+            img {
+                filter: invert(1);
+                width: 16px;
+            }
+        }
+    }
+}

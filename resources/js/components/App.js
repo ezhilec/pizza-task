@@ -10,6 +10,7 @@ import {
 import {connect} from 'react-redux'
 import Header from "./Header";
 import Footer from "./Footer";
+import ProductsContainer from "../containers/ProductsContainer";
 
 function App() {
     return (
@@ -19,6 +20,9 @@ function App() {
                 <main className="flex-shrink-0">
                     <div className="container">
                         <Switch>
+                            <Route exact path="/">
+                                <Products/>
+                            </Route>
                             <Route path="/delivery">
                                 <Delivery/>
                             </Route>
@@ -28,8 +32,11 @@ function App() {
                             <Route path="/cart">
                                 <Cart/>
                             </Route>
-                            <Route path="/">
-                                <Catalog/>
+                            <Route path="/catalog/:slug">
+                                <Product/>
+                            </Route>
+                            <Route path="/*">
+                                <Page404 />
                             </Route>
                         </Switch>
                     </div>
@@ -52,37 +59,32 @@ function Cart() {
     return <h2>Cart</h2>;
 }
 
-function Catalog() {
+function Products() {
     let match = useRouteMatch();
 
     return (
         <div>
             <h2>Catalog</h2>
-
-            <ul>
-                <li>
-                    <Link to={`/pizza1`}>Pizza1</Link>
-                </li>
-                <li>
-                    <Link to={`/pizza2`}>Pizza2</Link>
-                </li>
-            </ul>
-
-            <Switch>
-                <Route path={`/:productId`}>
-                    <Product/>
-                </Route>
-                <Route path={match.path}>
-                    <h3>Please select a product.</h3>
-                </Route>
-            </Switch>
+            <ProductsContainer/>
         </div>
     );
 }
 
 function Product() {
-    let {productId} = useParams();
-    return <h3>Requested product ID: {productId}</h3>;
+    let {slug} = useParams();
+    return <h3>Requested product ID: {slug}</h3>;
+}
+
+function Page404() {
+
+
+    return (
+        <div>
+            <h3>
+                Page not found. <Link to="/">Back to catalog</Link>
+            </h3>
+        </div>
+    );
 }
 
 const mapStateToProps = store => {
