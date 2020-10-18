@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::group(array('prefix' => '/v1'), function()
+{
+    Route::get('products', 'ProductsController@index')
+        ->name('api.v1.products.index');
 });
+
+
