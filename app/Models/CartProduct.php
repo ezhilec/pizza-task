@@ -9,6 +9,23 @@ class CartProduct extends Model
 {
     use HasFactory;
 
+    protected $table = 'carts_products';
+
+    protected $fillable = [
+        'product_id',
+        'amount',
+        'price',
+        'currency'
+    ];
+
+    protected $hidden = [
+        'cart_id',
+        'product_id',
+    ];
+
+    public $incrementing = false;
+    public $timestamps = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

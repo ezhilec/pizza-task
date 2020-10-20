@@ -22,6 +22,12 @@ Route::group(array('prefix' => '/v1'), function()
 {
     Route::get('products', 'ProductsController@index')
         ->name('api.v1.products.index');
+
+    Route::get('cart', 'CartController@show')
+        ->name('api.v1.cart.show');
+
+    Route::put('cart/{product}', 'CartController@update')
+        ->name('api.v1.cart.update.product');
 });
 
 

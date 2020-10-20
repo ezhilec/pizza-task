@@ -11,6 +11,7 @@ import {connect} from 'react-redux'
 import Header from "./Header";
 import Footer from "./Footer";
 import ProductsContainer from "../containers/ProductsContainer";
+import CartContainer from "../containers/CartContainer";
 
 function App() {
     return (
@@ -29,14 +30,12 @@ function App() {
                             <Route path="/about">
                                 <About/>
                             </Route>
-                            <Route path="/cart">
-                                <Cart/>
-                            </Route>
+                            <Route path="/cart" component={CartContainer}/>
                             <Route path="/catalog/:slug">
                                 <Product/>
                             </Route>
                             <Route path="/*">
-                                <Page404 />
+                                <Page404/>
                             </Route>
                         </Switch>
                     </div>
@@ -55,19 +54,8 @@ function About() {
     return <h2>About</h2>;
 }
 
-function Cart() {
-    return <h2>Cart</h2>;
-}
-
 function Products() {
-    let match = useRouteMatch();
-
-    return (
-        <div>
-            <h2>Catalog</h2>
-            <ProductsContainer/>
-        </div>
-    );
+    return <ProductsContainer/>;
 }
 
 function Product() {
@@ -76,8 +64,6 @@ function Product() {
 }
 
 function Page404() {
-
-
     return (
         <div>
             <h3>

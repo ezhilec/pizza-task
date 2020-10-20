@@ -33,11 +33,25 @@ class Header extends React.Component {
                         </div>
 
                         <div className="header-right-actions d-flex">
+                            <div className="dropdown">
+                                <button className="btn btn-outline-light dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-expanded="false">
+                                    USD
+                                </button>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a className="dropdown-item" href="#">USD</a></li>
+                                    <li><a className="dropdown-item" href="#">EUR</a></li>
+                                </ul>
+                            </div>
+
                             <Link to="/cart" className="cart-button btn btn-outline-light mr-4 d-flex">
                                 <img src="/images/shopping-cart.svg" className={'mr-1'} alt=""/>
                                 Cart
                                 <span className="badge rounded-pill bg-success ml-1">0</span>
                             </Link>
+
                             <a href="#" className="btn btn-success">Login</a>
                         </div>
                     </div>

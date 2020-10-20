@@ -1,16 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from "react-router-dom";
+import Loading from "./Loading";
+import Error from "./Error";
 
 export class Products extends React.Component {
+    componentDidMount() {
+        this.props.getProducts();
+    }
+
     render() {
+        if (this.props.isLoading) {
+            return <Loading/>;
+        }
+
+        if (this.props.error) {
+            return <Error message={this.props.error} />;
+        }
+
         return (
             <div className="products row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 {this.props.products.map((product) => {
                     return (
                         <div className="product col" key={product.slug}>
                             <div className="card shadow-sm">
-                                <img className={"product-img"} src={product.image}/>
+                                <img className={"product-img"} src={product.image_url}/>
 
                                 <div className="card-body">
                                     <h2 className="h4 product-name">
@@ -34,7 +48,10 @@ export class Products extends React.Component {
                                         </div>
 
                                         <div className="col-8">
-                                            <a href="#" className="btn btn-primary">Add to cart</a>
+                                            <a className="btn btn-primary"
+                                               onClick={() => this.props.updateCart(product.id)}>
+                                                Add to cart
+                                            </a>
                                         </div>
 
                                     </div>
@@ -44,12 +61,14 @@ export class Products extends React.Component {
                     );
                 })}
             </div>
-        )
-            ;
+        );
     }
 }
 
 Products.propTypes = {
+    getProducts: PropTypes.func.isRequired,
+    updateCart: PropTypes.func.isRequired,
     products: PropTypes.array.isRequired,
     count: PropTypes.number.isRequired,
+    error: PropTypes.string,
 }
