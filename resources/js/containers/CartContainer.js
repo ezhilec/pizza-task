@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getCart} from '../actions/CartActions';
+import {updateCart} from '../actions/CartActions';
 import {Cart} from '../components/Cart'
 
-class ProductsContainer extends React.Component {
+class CartContainer extends React.Component {
     render() {
         const {list, isLoading, error} = this.props.cart;
         return (
             <Cart
-                getCart={this.props.getCart}
+                updateCart={this.props.updateCart}
                 cartItems={list}
                 isLoading={isLoading}
                 error={error}
@@ -25,11 +25,11 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCart: () => dispatch(getCart()),
+        updateCart: (productId, amount) => dispatch(updateCart(productId, amount)),
     }
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProductsContainer);
+)(CartContainer);

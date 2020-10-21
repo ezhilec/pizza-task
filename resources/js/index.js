@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {store} from './store';
 import {Provider} from 'react-redux';
-import App from './components/App';
+import AppContainer from "./containers/AppContainer";
 
 if (document.getElementById('app')) {
     ReactDOM.render(
         <Provider store={store}>
-            <App/>
+            <AppContainer/>
         </Provider>,
         document.getElementById('app')
     );

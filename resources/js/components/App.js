@@ -5,45 +5,75 @@ import {
     Route,
     Link,
     useRouteMatch,
-    useParams
+    useParams,
+    Redirect
 } from "react-router-dom";
-import {connect} from 'react-redux'
-import Header from "./Header";
+import HeaderContainer from "../containers/HeaderContainer";
 import Footer from "./Footer";
 import ProductsContainer from "../containers/ProductsContainer";
 import CartContainer from "../containers/CartContainer";
+import LoginContainer from "../containers/LoginContainer";
+import Register from "./Register";
+import ForgotPassword from "./ForgotPassword";
+import PropTypes from "prop-types";
+import Error from "./Error";
 
-function App() {
-    return (
-        <Router>
-            <>
-                <Header/>
+class App extends React.Component {
+    componentDidMount() {
+        this.props.getCart();
+    }
+
+    render() {
+        return (
+            <Router>
+                <HeaderContainer/>
                 <main className="flex-shrink-0">
                     <div className="container">
                         <Switch>
-                            <Route exact path="/">
-                                <Products/>
-                            </Route>
-                            <Route path="/delivery">
-                                <Delivery/>
-                            </Route>
-                            <Route path="/about">
-                                <About/>
-                            </Route>
+                            <Route exact path="/" component={ProductsContainer}/>
+                            <Route path="/delivery" component={Delivery}/>
+                            <Route path="/about" component={About}/>
                             <Route path="/cart" component={CartContainer}/>
-                            <Route path="/catalog/:slug">
-                                <Product/>
-                            </Route>
-                            <Route path="/*">
-                                <Page404/>
-                            </Route>
+                            <Route path="/catalog/:slug" component={Product}/>
+                            <Route path="/login" component={LoginContainer}/>
+                            <Route path="/register" component={Register}/>
+                            <Route path="/forgot-password" component={ForgotPassword}/>
+
+                            <PrivateRoute
+                                path='/cabinet/orders'
+                                isLogged={this.props.isLogged}
+                                component={CabinetOrders}/>
+                            <PrivateRoute
+                                path='/cabinet/user'
+                                isLogged={this.props.isLogged}
+                                component={CabinetUser}/>
+
+                            <Route path="/*" component={Page404}/>
                         </Switch>
                     </div>
                 </main>
                 <Footer/>
-            </>
-        </Router>
-    );
+            </Router>
+        );
+    }
+}
+
+const PrivateRoute = ({component: Component, isLogged, ...rest}) => {
+    return (
+        <Route {...rest} render={(props) => (
+            isLogged ?
+                <Component {...props} /> :
+                <Redirect to='/login'/>
+        )}/>
+    )
+};
+
+function CabinetOrders() {
+    return <h2>CabinetOrders</h2>;
+}
+
+function CabinetUser() {
+    return <h2>CabinetUser</h2>;
 }
 
 function Delivery() {
@@ -54,16 +84,12 @@ function About() {
     return <h2>About</h2>;
 }
 
-function Products() {
-    return <ProductsContainer/>;
-}
-
 function Product() {
     let {slug} = useParams();
     return <h3>Requested product ID: {slug}</h3>;
 }
 
-function Page404() {
+const Page404 = () => {
     return (
         <div>
             <h3>
@@ -73,11 +99,9 @@ function Page404() {
     );
 }
 
-const mapStateToProps = store => {
-    return {
-        user: store.user,
-        products: store.products,
-    }
-};
+Error.propTypes = {
+    isLogged: PropTypes.bool.isRequired,
+    getCart: PropTypes.func.isRequired
+}
 
-export default connect(mapStateToProps)(App);
+export default App;

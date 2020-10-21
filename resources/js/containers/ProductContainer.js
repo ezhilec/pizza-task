@@ -15,7 +15,7 @@ class ProductsContainer extends React.Component {
                 error={error}
                 getProducts={this.props.getProducts}
                 updateCart={this.props.updateCart}
-                cartProducts={this.props.cartProducts}
+                cartProducts={this.cartProducts}
             />
         )
     }
@@ -23,15 +23,15 @@ class ProductsContainer extends React.Component {
 
 const mapStateToProps = store => {
     return {
-        products: store.products,
+        product: store.product,
         cartProducts: store.cart.list
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProducts: () => dispatch(getProducts()),
-        updateCart: (productId, amount) => dispatch(updateCart(productId, amount)),
+        getProduct: (productId) => dispatch(getProduct(productId)),
+        updateCart: (productId, amount, plus) => dispatch(updateCart(productId, amount, plus)),
     }
 };
 

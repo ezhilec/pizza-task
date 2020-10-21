@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Header extends React.Component {
     render() {
@@ -33,7 +34,7 @@ class Header extends React.Component {
                         </div>
 
                         <div className="header-right-actions d-flex">
-                            <div className="dropdown">
+                            <div className="dropdown mr-4">
                                 <button className="btn btn-outline-light dropdown-toggle"
                                         type="button"
                                         id="dropdownMenuButton"
@@ -49,10 +50,23 @@ class Header extends React.Component {
                             <Link to="/cart" className="cart-button btn btn-outline-light mr-4 d-flex">
                                 <img src="/images/shopping-cart.svg" className={'mr-1'} alt=""/>
                                 Cart
-                                <span className="badge rounded-pill bg-success ml-1">0</span>
+                                <span className="badge rounded-pill bg-success ml-1">
+                                    {this.props.cartCount}
+                                </span>
                             </Link>
 
-                            <a href="#" className="btn btn-success">Login</a>
+                            {this.props.isLogged ?
+                                <Link
+                                    to="/cabinet/orders"
+                                    className="btn btn-primary">
+                                    Cabinet
+                                </Link> :
+                                <Link
+                                    to="/login"
+                                    className="btn btn-success">
+                                    Login
+                                </Link>
+                            }
                         </div>
                     </div>
                 </nav>
@@ -61,8 +75,8 @@ class Header extends React.Component {
     }
 }
 
-function NavLi({label, to, activeOnlyWhenExact}) {
-    let match = useRouteMatch({
+const NavLi = ({label, to, activeOnlyWhenExact}) => {
+    const match = useRouteMatch({
         path: to,
         exact: activeOnlyWhenExact
     });
@@ -73,5 +87,11 @@ function NavLi({label, to, activeOnlyWhenExact}) {
         </li>
     );
 }
+
+Header.propTypes = {
+    isLogged: PropTypes.bool.isRequired,
+    cartCount: PropTypes.number.isRequired,
+};
+
 
 export default Header;

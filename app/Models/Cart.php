@@ -41,7 +41,7 @@ class Cart extends Model
      */
     public function cartProducts()
     {
-        return $this->hasMany('App\Models\CartProduct');
+        return $this->hasMany('App\Models\CartProduct', 'cart_id', 'id');
     }
 
     /**

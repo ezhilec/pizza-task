@@ -20,7 +20,7 @@ export const getProducts = () => async dispatch => {
         } else {
             dispatch({
                 type: GET_PRODUCTS_ERROR,
-                payload: response.data.data.error
+                payload: response.data.error
             });
         }
 

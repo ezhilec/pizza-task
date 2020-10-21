@@ -27,11 +27,9 @@ class GuestIdService
      */
     public function makeCookie()
     {
-        $guestId =  Str::uuid()->toString();
+        $guestId = Str::uuid()->toString();
 
         Cookie::queue(Cookie::forever('guestId', $guestId));
-        //$cookie = cookie()->forever('guestId', $guestId);
-        //return $cookie;
     }
 
     /**

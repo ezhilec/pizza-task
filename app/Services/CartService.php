@@ -17,19 +17,28 @@ class CartService
     }
 
     /**
-     * Gett current user cart
+     * Get current user cart
      */
-    public function getCurrent()
+    public function getCurrent() : Cart
     {
         if (auth()->user()) {
-            $cart = $this->getByUserId();
+            return $this->getByUserId();
         }
 
-        $cart = $this->getByGuestId();
+        return $this->getByGuestId();
+    }
 
+    /**
+     * Get cart for api
+     *
+     * @param $cart
+     * @return mixed
+     */
+    public function getProductsList($cart)
+    {
         $result = $cart->cartProducts()
-                        ->with('product')
-                        ->get();
+            ->with('product')
+            ->get();
 
         return $result;
     }
@@ -39,8 +48,10 @@ class CartService
      *
      * @param Product $product
      * @param int $amount
+     * @param bool $plus
+     * @return mixed
      */
-    public function updateProduct(Product $product, int $amount = 1) : Cart
+    public function updateProduct(Product $product, int $amount = 1, bool $plus = false)
     {
         $cart = $this->getCurrent();
 
@@ -48,13 +59,35 @@ class CartService
             'product_id' => $product->id
         ]);
 
-        $cartProduct->amount = $amount;
+        $cartProduct->amount = $plus ? $cartProduct->amount + $amount : $amount;
         $cartProduct->price = $product->price;
         $cartProduct->currency = $product->currency;
 
         $cartProduct->save();
 
-        return $cart;
+        $list = $this->getProductsList($cart);
+        return $list;
+    }
+
+    /**
+     * Add/Update product in the cart
+     *
+     * @param Product $product
+     * @param int $amount
+     * @return mixed
+     */
+    public function deleteProduct(Product $product)
+    {
+        $cart = $this->getCurrent();
+
+        $cartProduct = $cart->cartProducts()->where([
+            'product_id' => $product->id
+        ]);
+
+        $cartProduct->delete();
+
+        $list = $this->getProductsList($cart);
+        return $list;
     }
 
     /**

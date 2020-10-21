@@ -32,8 +32,9 @@ class CartController extends BaseController
     {
         try {
             $cart = $this->cartService->getCurrent();
+            $list = $this->cartService->getProductsList($cart);
 
-            return response()->apiSuccess($cart);
+            return response()->apiSuccess($list);
         } catch (\Exeption $e) {
             return response()->apiFail($e->getMessage());
         }
@@ -44,7 +45,12 @@ class CartController extends BaseController
         try {
             $amount = $request->get('amount') ?? 1;
 
-            $cart = $this->cartService->updateProduct($product, $amount);
+            if ($amount === 0) {
+                $cart = $this->cartService->deleteProduct($product);
+            } else {
+                $cart = $this->cartService->updateProduct($product, $amount);
+            }
+
             return response()->apiSuccess($cart);
         } catch (\Exeption $e) {
             return response()->apiFail($e->getMessage());
