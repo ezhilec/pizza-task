@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CartRequest;
 use App\Models\Product;
 use App\Services\CartService;
 use App\Services\ProductsService;
@@ -40,10 +41,10 @@ class CartController extends BaseController
         }
     }
 
-    public function update(Request $request, Product $product)
+    public function update(CartRequest $request, Product $product)
     {
         try {
-            $amount = $request->get('amount') ?? 1;
+            $amount = $request->get('amount');
 
             if ($amount === 0) {
                 $cart = $this->cartService->deleteProduct($product);

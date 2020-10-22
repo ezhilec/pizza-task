@@ -22,6 +22,13 @@ class Product extends Model
 
     const IMAGES_PATH = '/images/pizza/';
 
+    public function carts() {
+        return $this->belongsToMany('App\Models\Cart', 'carts_products')
+                    ->using('App\Models\CartProduct')
+                    ->withPivot('amount', 'price', 'currency')
+                    ->withTimestamps();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -34,4 +41,6 @@ class Product extends Model
     {
         return self::IMAGES_PATH.$this->image;
     }
+
+
 }

@@ -16,6 +16,8 @@ class ProductsContainer extends React.Component {
                 getProducts={this.props.getProducts}
                 updateCart={this.props.updateCart}
                 cartProducts={this.props.cartProducts}
+                currencies={this.props.currencies}
+                currentCurrency={this.props.currentCurrency}
             />
         )
     }
@@ -24,7 +26,9 @@ class ProductsContainer extends React.Component {
 const mapStateToProps = store => {
     return {
         products: store.products,
-        cartProducts: store.cart.list
+        cartProducts: store.cart.list,
+        currencies: store.currency.list,
+        currentCurrency: store.currency.currentCurrency
     }
 };
 

@@ -21,6 +21,7 @@ import Error from "./Error";
 class App extends React.Component {
     componentDidMount() {
         this.props.getCart();
+        this.props.getCurrencies();
     }
 
     render() {

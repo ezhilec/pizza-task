@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import {cn} from "classnames";
 import InputPlusMinus from "./InputPlusMinus";
+import CurrencyFormat from "./CurrencyFormat";
 
 class ProductItem extends React.Component {
     state = {
@@ -31,7 +31,10 @@ class ProductItem extends React.Component {
     };
 
     handleAddToCart = () => {
-        this.props.updateCart(this.props.product.id, this.state.amount, true);
+        this.props.updateCart(
+            this.props.product.id,
+            this.props.amountInCart + this.state.amount
+        );
 
         this.setState({
             amount: 1
@@ -47,13 +50,25 @@ class ProductItem extends React.Component {
                     <img className={"product-img"} src={product.image_url}/>
 
                     <div className="card-body">
-                        <h2 className="h4 product-name">
-                            <Link to={`/catalog/${product.slug}`}>{product.name}</Link>
-                        </h2>
-                        {this.props.isAddedToCart &&
-                        <div className="badge bg-success">Added</div>
-                        }
-                        <p className="card-text">{product.price} {product.currency}</p>
+
+                        <div className="product-name">
+                            <h2 className="h4 d-inline-block">
+                                <Link to={`/catalog/${product.slug}`}>{product.name}</Link>
+                            </h2>
+
+                            {this.props.amountInCart &&
+                            <div className="badge bg-success ml-2">
+                                Added {this.props.amountInCart}
+                            </div>
+                            }
+                        </div>
+                        <p className={"h6"}>
+                            <CurrencyFormat
+                                price={+product.price}
+                                currencies={this.props.currencies}
+                                currencyFrom={product.currency}
+                                currencyTo={this.props.currentCurrency}/>
+                        </p>
                         <div className="row">
                             <div className="col-4">
                                 <InputPlusMinus
@@ -62,25 +77,6 @@ class ProductItem extends React.Component {
                                     handleMinus={this.handleMinus}
                                     handleInputChange={this.handleInputChange}/>
 
-                                {/*                               <div className="input-group mb-3">
-                                    <button
-                                        className="btn btn-outline-secondary"
-                                        type="button"
-                                        onClick={this.handleMinus}>
-                                        -
-                                    </button>
-                                    <input type="text"
-                                           className="form-control"
-                                           placeholder=""
-                                           onChange={this.handleInputChange}
-                                           value={this.state.amount}/>
-                                    <button
-                                        className="btn btn-outline-secondary"
-                                        type="button"
-                                        onClick={this.handlePlus}>
-                                        +
-                                    </button>
-                                </div>*/}
                             </div>
 
                             <div className="col-8">
@@ -107,7 +103,9 @@ class ProductItem extends React.Component {
 
 ProductItem.propTypes = {
     product: PropTypes.object.isRequired,
-    updateCart: PropTypes.func.isRequired
+    updateCart: PropTypes.func.isRequired,
+    currencies: PropTypes.array.isRequired,
+    currentCurrency: PropTypes.string.isRequired
 };
 
 

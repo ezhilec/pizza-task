@@ -19,7 +19,7 @@ class CartService
     /**
      * Get current user cart
      */
-    public function getCurrent() : Cart
+    public function getCurrent(): Cart
     {
         if (auth()->user()) {
             return $this->getByUserId();
@@ -36,9 +36,22 @@ class CartService
      */
     public function getProductsList($cart)
     {
-        $result = $cart->cartProducts()
-            ->with('product')
-            ->get();
+        $result = $cart->products()
+            ->orderByDesc('carts_products.created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'amount' => $item->pivot->amount,
+                    'price' => $item->pivot->price,
+                    'currency' => $item->pivot->currency,
+                    'product' => [
+                        'id' => $item->id,
+                        'slug' => $item->slug,
+                        'name' => $item->name,
+                        'image_url' => $item->image_url
+                    ]
+                ];
+            });
 
         return $result;
     }
@@ -48,22 +61,19 @@ class CartService
      *
      * @param Product $product
      * @param int $amount
-     * @param bool $plus
      * @return mixed
      */
-    public function updateProduct(Product $product, int $amount = 1, bool $plus = false)
+    public function updateProduct(Product $product, int $amount = 1)
     {
         $cart = $this->getCurrent();
 
-        $cartProduct = $cart->cartProducts()->firstOrNew([
-            'product_id' => $product->id
+        $cart->products()->syncWithoutDetaching([
+            $product->id => [
+                'amount' => $amount,
+                'price' => $product->price,
+                'currency' => $product->currency
+            ]
         ]);
-
-        $cartProduct->amount = $plus ? $cartProduct->amount + $amount : $amount;
-        $cartProduct->price = $product->price;
-        $cartProduct->currency = $product->currency;
-
-        $cartProduct->save();
 
         $list = $this->getProductsList($cart);
         return $list;
@@ -80,11 +90,7 @@ class CartService
     {
         $cart = $this->getCurrent();
 
-        $cartProduct = $cart->cartProducts()->where([
-            'product_id' => $product->id
-        ]);
-
-        $cartProduct->delete();
+        $cart->products()->detach($product->id);
 
         $list = $this->getProductsList($cart);
         return $list;
@@ -93,7 +99,7 @@ class CartService
     /**
      * Get by cookie id
      */
-    private function getByGuestId() : Cart
+    private function getByGuestId(): Cart
     {
         $guestId = $this->guestIdService->get();
 
@@ -105,13 +111,13 @@ class CartService
     /**
      * Get by user id
      */
-    private function getByUserId() : Cart
+    private function getByUserId(): Cart
     {
         $userId = auth()->user()->id;
 
         $cart = Cart::doesntHave('order')
-                    ->latest()
-                    ->firstOrCreate(['user_id' => $userId]);
+            ->latest()
+            ->firstOrCreate(['user_id' => $userId]);
 
         return $cart;
     }

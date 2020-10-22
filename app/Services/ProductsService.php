@@ -11,8 +11,9 @@ class ProductsService
      */
     public function getProducts()
     {
-        $products = Product::all()
-            ->sortBy('priority');
+        $products = Product::query()
+            ->orderBy('priority')
+            ->get();
 
         return $products;
     }

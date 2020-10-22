@@ -10,7 +10,9 @@ export class Products extends React.Component {
     }
 
     render() {
-        if (this.props.isLoading) {
+        if (this.props.isLoading ||
+            !this.props.currencies ||
+            !this.props.currentCurrency) {
             return <Loading/>;
         }
 
@@ -22,18 +24,18 @@ export class Products extends React.Component {
             <div className="products row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 {this.props.products.map((product) => {
 
-                    const isAddedToCart = this.props.cartProducts.some((item) => {
-                        console.log(item.product.id, product.id)
+                    const addedInCart = this.props.cartProducts.find((item) => {
                         return item.product.id === product.id
                     });
 
-                    console.log(11, this.props, isAddedToCart)
                     return (
                         <ProductItem
                             key={product.slug}
                             product={product}
                             updateCart={this.props.updateCart}
-                            isAddedToCart={isAddedToCart}
+                            amountInCart={addedInCart ? addedInCart.amount : null}
+                            currencies={this.props.currencies}
+                            currentCurrency={this.props.currentCurrency}
                         />
                     );
                 })}
@@ -49,4 +51,6 @@ Products.propTypes = {
     count: PropTypes.number.isRequired,
     cartProducts: PropTypes.array,
     error: PropTypes.string,
+    currentCurrency: PropTypes.string,
+    currencies: PropTypes.array
 }

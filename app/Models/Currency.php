@@ -9,6 +9,10 @@ class Currency extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -22,7 +26,7 @@ class Currency extends Model
      */
     public function rates()
     {
-        return $this->hasMany('App\Models\CurrencyRate');
+        return $this->hasMany('App\Models\CurrencyRate', 'currency', 'slug');
     }
 
     /**

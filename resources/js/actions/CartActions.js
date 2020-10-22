@@ -36,10 +36,10 @@ export const getCart = (payload) => async dispatch => {
 };
 
 export const updateCart = (productId, amount, plus) => async dispatch => {
-console.log(productId, amount, plus)
-    dispatch({
-        type: UPDATE_CART_REQUEST
-    });
+
+    // dispatch({
+    //     type: UPDATE_CART_REQUEST
+    // });
 
     try {
         const response = await axios.put(`api/v1/cart/${productId}`, {

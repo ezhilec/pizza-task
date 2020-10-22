@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CartProduct extends Model
+class CartProduct extends Pivot
 {
     use HasFactory;
 
@@ -23,15 +24,15 @@ class CartProduct extends Model
         'product_id',
     ];
 
+    protected $primaryKey = null;
     public $incrementing = false;
-    public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function cart()
     {
-        return $this->belongsTo('App\Models\Order');
+        return $this->belongsTo('App\Models\Cart');
     }
 
     /**
@@ -47,6 +48,6 @@ class CartProduct extends Model
      */
     public function currency()
     {
-        return $this->belongsTo('App\Models\Currency');
+        return $this->belongsTo('App\Models\Currency', 'currency', 'slug');
     }
 }

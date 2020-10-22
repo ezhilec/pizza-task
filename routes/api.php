@@ -38,7 +38,7 @@ Route::group(['prefix' => '/v1'], function()
     Route::put('cart/{product}', 'CartController@update')
         ->name('api.v1.cart.update.product');
 
-    Route::get('currencies', 'CurrencyController@index')
+    Route::get('currencies', 'CurrenciesController@index')
         ->name('api.v1.currencies.index');
 
     // routes for logged-in

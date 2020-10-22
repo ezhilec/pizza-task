@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 import PropTypes from "prop-types";
+import CurrencySelectContainer from "../containers/CurrencySelectContainer";
 
 class Header extends React.Component {
     render() {
@@ -34,18 +35,7 @@ class Header extends React.Component {
                         </div>
 
                         <div className="header-right-actions d-flex">
-                            <div className="dropdown mr-4">
-                                <button className="btn btn-outline-light dropdown-toggle"
-                                        type="button"
-                                        id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-expanded="false">
-                                    USD
-                                </button>
-                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a className="dropdown-item" href="#">USD</a></li>
-                                    <li><a className="dropdown-item" href="#">EUR</a></li>
-                                </ul>
-                            </div>
+                            <CurrencySelectContainer/>
 
                             <Link to="/cart" className="cart-button btn btn-outline-light mr-4 d-flex">
                                 <img src="/images/shopping-cart.svg" className={'mr-1'} alt=""/>

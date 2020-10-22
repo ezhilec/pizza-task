@@ -29,20 +29,23 @@ class Cart extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->belongsToMany('App\Models\Product', 'carts_products')
+                    ->using('App\Models\CartProduct')
+                    ->withPivot('amount', 'price', 'currency')
+                    ->withTimestamps();;
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cartProducts()
-    {
-        return $this->hasMany('App\Models\CartProduct', 'cart_id', 'id');
-    }
+//    public function cartProducts()
+//    {
+//        return $this->hasMany('App\Models\CartProduct', 'cart_id', 'id');
+//    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
