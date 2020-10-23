@@ -17,8 +17,7 @@ export const submitRegistration = (name, login, password) => async dispatch => {
     });
 
     try {
-        const response = await axios.get('api/v1/registration/');
-
+        const response = await axios.get('/api/v1/registration/');
         if (response.data.status === 'ok') {
             dispatch({
                 type: GET_REGISTRATION_SUCCESS,
@@ -45,7 +44,7 @@ export const submitPasswordRecovery = (email) => async dispatch => {
     });
 
     try {
-        const response = await axios.get('api/v1/password_recovery/');
+        const response = await axios.get('/api/v1/password_recovery/');
 
         if (response.data.status === 'ok') {
             dispatch({
@@ -62,7 +61,7 @@ export const submitPasswordRecovery = (email) => async dispatch => {
     } catch (e) {
         dispatch({
             type: GET_PASSWORD_ERROR,
-            payload: e,
+            payload: 'Server error'
         });
     }
 };
@@ -72,7 +71,7 @@ export const submitLogout = (payload) => async dispatch => {
         type: GET_LOGOUT_REQUEST
     });
 
-    const response = await axios.get('api/v1/logout/');
+    const response = await axios.get('/api/v1/logout/');
 
     dispatch({
         type: GET_LOGOUT_SUCCESS

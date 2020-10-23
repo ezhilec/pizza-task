@@ -22,4 +22,12 @@ class CurrencyService
 
         return $currencies;
     }
+
+    public function getBySlug($slug)
+    {
+        $currency = Currency::where('slug', $slug)
+            ->first();
+
+        return $currency;
+    }
 }

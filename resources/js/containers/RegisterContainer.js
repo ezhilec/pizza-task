@@ -1,19 +1,23 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {submitLogin, onChangeField} from '../actions/LoginActions';
-import {Login} from '../components/Login'
+import {submitRegister, onChangeField} from '../actions/RegisterActions';
+import {Register} from '../components/Register'
 
-class LoginContainer extends React.Component {
+class RegisterContainer extends React.Component {
     render() {
-        const {isLoading, error, email, password} = this.props.loginForm;
+        const {isLoading, error, name, email, phone, password, password_confirmation}
+                = this.props.registerForm;
         return (
-            <Login
-                submitLogin={this.props.submitLogin}
+            <Register
+                submitRegister={this.props.submitRegister}
                 onChangeField={this.props.onChangeField}
                 isLoading={isLoading}
                 error={error}
+                name={name}
                 email={email}
+                phone={phone}
                 password={password}
+                password_confirmation={password_confirmation}
                 isLogged={this.props.isLogged}
             />
         )
@@ -22,7 +26,7 @@ class LoginContainer extends React.Component {
 
 const mapStateToProps = store => {
     return {
-        loginForm: store.loginForm,
+        registerForm: store.registerForm,
         isLogged: store.loginForm.isLogged
     }
 };
@@ -30,11 +34,11 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         onChangeField: (name, value) => dispatch(onChangeField(name, value)),
-        submitLogin: (data) => dispatch(submitLogin(data)),
+        submitRegister: (data) => dispatch(submitRegister(data)),
     }
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LoginContainer);
+)(RegisterContainer);

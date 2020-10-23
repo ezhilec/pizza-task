@@ -11,7 +11,7 @@ export const getCurrencies = (payload) => async dispatch => {
     });
 
     try {
-        const response = await axios.get('api/v1/currencies');
+        const response = await axios.get('/api/v1/currencies');
 
         if (response.data.status === 'ok') {
             dispatch({
@@ -35,7 +35,7 @@ export const getCurrencies = (payload) => async dispatch => {
     } catch (e) {
         dispatch({
             type: GET_CURRENCIES_ERROR,
-            payload: e,
+            payload: 'Server error'
         });
     }
 };

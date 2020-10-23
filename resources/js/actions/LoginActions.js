@@ -1,9 +1,12 @@
 import axios from 'axios';
 
 export const LOGIN_ON_CHANGE_FIELD = 'ON_CHANGE_FIELD';
+
 export const GET_LOGIN_REQUEST = 'GET_LOGIN_REQUEST';
 export const GET_LOGIN_SUCCESS = 'GET_LOGIN_SUCCESS';
 export const GET_LOGIN_ERROR = 'GET_LOGIN_ERROR';
+
+export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
 
 export const onChangeField = (name, value) => {
     return {
@@ -21,7 +24,7 @@ export const submitLogin = (data) => async dispatch => {
     });
 
     try {
-        const response = await axios.post('api/v1/login/', {
+        const response = await axios.post('/api/v1/login/', {
             email,
             password
         });
@@ -45,7 +48,24 @@ export const submitLogin = (data) => async dispatch => {
     } catch (e) {
         dispatch({
             type: GET_LOGIN_ERROR,
-            payload: e,
+            payload: 'Server error'
         });
     }
+};
+
+export const submitLogout = (data) => async dispatch => {
+
+    try {
+        const response = await axios.post('/api/v1/logout');
+    } catch (e) {
+
+    }
+
+    window.localStorage.removeItem('token');
+    axios.defaults.headers.common['Authorization'] = '';
+
+    dispatch({
+        type: GET_LOGOUT_SUCCESS
+    });
+
 };

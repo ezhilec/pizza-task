@@ -36,22 +36,14 @@ class Cart extends Model
         return $this->belongsToMany('App\Models\Product', 'carts_products')
                     ->using('App\Models\CartProduct')
                     ->withPivot('amount', 'price', 'currency')
-                    ->withTimestamps();;
+                    ->withTimestamps();
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-//    public function cartProducts()
-//    {
-//        return $this->hasMany('App\Models\CartProduct', 'cart_id', 'id');
-//    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function order()
     {
-        return $this->belongsTo('App\Models\Order');
+        return $this->hasOne('App\Models\Order');
     }
 }

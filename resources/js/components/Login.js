@@ -3,6 +3,7 @@ import Loading from "./Loading";
 import Error from "./Error";
 import PropTypes from "prop-types";
 import {Products} from "./Products";
+import {Link, Redirect} from "react-router-dom";
 
 export class Login extends React.Component {
 
@@ -10,7 +11,7 @@ export class Login extends React.Component {
         this.props.onChangeField(e.target.name, e.target.value)
     };
 
-    handleSubmit= e => {
+    handleSubmit = e => {
         this.props.submitLogin({
             email: this.props.email,
             password: this.props.password
@@ -18,8 +19,11 @@ export class Login extends React.Component {
     };
 
     render() {
-        return (
+        if (this.props.isLogged) {
+            return <Redirect to='/'/>;
+        }
 
+        return (
             <div className={"col-md-4 ml-auto mr-auto"}>
                 <div className={'card p-3'}>
                     <h2>Login</h2>
@@ -46,11 +50,17 @@ export class Login extends React.Component {
                     </div>
                     {this.props.isLoading ?
                         <Loading/> :
-                        <div>
-                            <input type="submit"
-                                   className="btn btn-success"
-                                   value="Sign In"
-                                   onClick={this.handleSubmit}/>
+                        <div className={"row"}>
+                            <div className={"col-4"}>
+                                <input type="submit"
+                                       className="btn btn-success"
+                                       value="Sign In"
+                                       onClick={this.handleSubmit}/>
+                            </div>
+                            <div className={"col-8"}>
+                                Don't have an account? <Link to="/register">Register</Link>
+                            </div>
+
                         </div>
                     }
                 </div>
@@ -60,5 +70,6 @@ export class Login extends React.Component {
 }
 
 Login.propTypes = {
-    submitLogin: PropTypes.func.isRequired
+    submitLogin: PropTypes.func.isRequired,
+    isLogged: PropTypes.bool.isRequired
 };

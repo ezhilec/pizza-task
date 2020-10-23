@@ -2,6 +2,7 @@ import React from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 import PropTypes from "prop-types";
 import CurrencySelectContainer from "../containers/CurrencySelectContainer";
+import UserMenu from "./UserMenu";
 
 class Header extends React.Component {
     render() {
@@ -37,7 +38,8 @@ class Header extends React.Component {
                         <div className="header-right-actions d-flex">
                             <CurrencySelectContainer/>
 
-                            <Link to="/cart" className="cart-button btn btn-outline-light mr-4 d-flex">
+                            <Link to="/cart"
+                                  className="cart-button btn btn-outline-light mr-4 d-flex">
                                 <img src="/images/shopping-cart.svg" className={'mr-1'} alt=""/>
                                 Cart
                                 <span className="badge rounded-pill bg-success ml-1">
@@ -46,11 +48,8 @@ class Header extends React.Component {
                             </Link>
 
                             {this.props.isLogged ?
-                                <Link
-                                    to="/cabinet/orders"
-                                    className="btn btn-primary">
-                                    Cabinet
-                                </Link> :
+                                <UserMenu
+                                    submitLogout={this.props.submitLogout}/> :
                                 <Link
                                     to="/login"
                                     className="btn btn-success">
@@ -81,6 +80,7 @@ const NavLi = ({label, to, activeOnlyWhenExact}) => {
 Header.propTypes = {
     isLogged: PropTypes.bool.isRequired,
     cartCount: PropTypes.number.isRequired,
+    submitLogout: PropTypes.func.isRequired,
 };
 
 

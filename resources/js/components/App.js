@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
     BrowserRouter as Router,
     Switch,
@@ -13,15 +14,21 @@ import Footer from "./Footer";
 import ProductsContainer from "../containers/ProductsContainer";
 import CartContainer from "../containers/CartContainer";
 import LoginContainer from "../containers/LoginContainer";
-import Register from "./Register";
+import RegisterContainer from "../containers/RegisterContainer";
 import ForgotPassword from "./ForgotPassword";
-import PropTypes from "prop-types";
-import Error from "./Error";
+import OrderContainer from "../containers/OrderContainer";
+import OrdersHistoryContainer from "../containers/OrdersHistoryContainer";
+import UserProfileContainer from "../containers/UserProfileContainer";
+import Thanks from "./Thanks";
 
 class App extends React.Component {
     componentDidMount() {
         this.props.getCart();
         this.props.getCurrencies();
+
+        if (this.props.isLogged) {
+            this.props.getUser();
+        }
     }
 
     render() {
@@ -37,17 +44,19 @@ class App extends React.Component {
                             <Route path="/cart" component={CartContainer}/>
                             <Route path="/catalog/:slug" component={Product}/>
                             <Route path="/login" component={LoginContainer}/>
-                            <Route path="/register" component={Register}/>
+                            <Route path="/register" component={RegisterContainer}/>
                             <Route path="/forgot-password" component={ForgotPassword}/>
+                            <Route path="/order" component={OrderContainer}/>
+                            <Route path="/thanks" component={Thanks}/>
 
                             <PrivateRoute
                                 path='/cabinet/orders'
                                 isLogged={this.props.isLogged}
-                                component={CabinetOrders}/>
+                                component={OrdersHistoryContainer}/>
                             <PrivateRoute
-                                path='/cabinet/user'
+                                path='/cabinet/profile'
                                 isLogged={this.props.isLogged}
-                                component={CabinetUser}/>
+                                component={UserProfileContainer}/>
 
                             <Route path="/*" component={Page404}/>
                         </Switch>
@@ -100,7 +109,7 @@ const Page404 = () => {
     );
 }
 
-Error.propTypes = {
+App.propTypes = {
     isLogged: PropTypes.bool.isRequired,
     getCart: PropTypes.func.isRequired
 }

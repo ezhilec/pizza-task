@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 Route::group(['prefix' => '/v1'], function()
 {
     Route::post('/login', 'LoginController@login')
@@ -26,29 +22,40 @@ Route::group(['prefix' => '/v1'], function()
     Route::post('/login/refresh', 'LoginController@refresh')
         ->name('api.v1.login.refresh');
 
-    Route::post('/login/register', 'LoginController@register')
+    Route::post('/register', 'LoginController@register')
         ->name('api.v1.register');
 
-    Route::get('products', 'ProductsController@index')
+    Route::get('/products', 'ProductsController@index')
         ->name('api.v1.products.index');
 
-    Route::get('cart', 'CartController@show')
+    Route::get('/cart', 'CartController@show')
         ->name('api.v1.cart.show');
 
-    Route::put('cart/{product}', 'CartController@update')
+    Route::put('/cart/{product}', 'CartController@update')
         ->name('api.v1.cart.update.product');
 
-    Route::get('currencies', 'CurrenciesController@index')
+    Route::get('/currencies', 'CurrenciesController@index')
         ->name('api.v1.currencies.index');
+
+    Route::get('/delivery_types', 'DeliveryTypesController@index')
+        ->name('api.v1.deliveryTypes.index');
+
+    Route::post('/orders', 'OrdersController@store')
+        ->name('api.v1.add.order');
 
     // routes for logged-in
     Route::middleware(['auth:api'])->group(function () {
-        Route::post('/logout', 'LoginController@login')
+        Route::post('/logout', 'LoginController@logout')
             ->name('api.v1.logout');
 
-        Route::get('user', 'UserController@show')
+        Route::get('/user', 'UserController@show')
             ->name('api.v1.user.show');
 
+        Route::put('/user', 'UserController@update')
+            ->name('api.v1.user.show');
+
+        Route::get('/orders', 'OrdersController@index')
+            ->name('api.v1.orders.show');
     });
 });
 

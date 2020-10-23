@@ -11,6 +11,12 @@ header {
                 filter: invert(1);
                 width: 16px;
             }
+
+            &:hover {
+                img {
+                    filter: none;
+                }
+            }
         }
     }
 }

@@ -3,17 +3,23 @@
 namespace App\Services;
 
 use App\Models\Cart;
+use App\Models\Currency;
 use App\Models\Product;
+use Illuminate\Support\Collection;
 
 class CartService
 {
     private $guestIdService;
 
+    private $currencyService;
+
     public function __construct(
-        GuestIdService $guestIdService
+        GuestIdService $guestIdService,
+        CurrencyService $currencyService
     )
     {
         $this->guestIdService = $guestIdService;
+        $this->currencyService = $currencyService;
     }
 
     /**
@@ -21,11 +27,33 @@ class CartService
      */
     public function getCurrent(): Cart
     {
-        if (auth()->user()) {
+        if (request()->user()) {
+            $this->connectGuestCartToUser();
+
             return $this->getByUserId();
         }
 
         return $this->getByGuestId();
+    }
+
+    /**
+     * Set guest cart to user / restore user cart if guest cart is empty
+     *
+     * @throws \Exception
+     */
+    private function connectGuestCartToUser()
+    {
+        $guestCart = $this->getByGuestId();
+        $userCart = $this->getByUserId();
+
+        if ($guestCart->products()->count() > 0 && $guestCart->user_id === null) {
+            $guestCart->user_id = request()->user()->id;
+            $guestCart->save();
+        } elseif ($userCart->products()->count() > 0 && $guestCart->products()->count() === 0) {
+            $guestCart->delete();
+            $userCart->session_id = $this->guestIdService->get();
+            $userCart->save();
+        }
     }
 
     /**
@@ -95,6 +123,50 @@ class CartService
         $list = $this->getProductsList($cart);
         return $list;
     }
+
+    /**
+     * @param Cart $cart
+     * @param string $currency
+     * @return float|int
+     */
+    public function cartTotalCost(Cart $cart, string $currency)
+    {
+        $products = $cart->products;
+
+        $currencies = $this->currencyService->getCurrencies();
+
+        $resultPrice = 0;
+
+        foreach ($products as $product) {
+            $resultPrice += $this->convertCurrency(
+                $product->pivot->price * $product->pivot->amount,
+                $product->currency,
+                $currency,
+                $currencies
+            );
+        }
+
+        return $resultPrice;
+    }
+
+    /**
+     * @param $price
+     * @param string $currencyFrom
+     * @param string $currencyTo
+     * @param Collection $currencies
+     * @return float
+     */
+    private function convertCurrency($price, string $currencyFrom, string $currencyTo, Collection $currencies): float
+    {
+        $rateFrom = $currencies->firstWhere('slug', $currencyFrom)->rate ?? 1;
+        $rateTo = $currencies->firstWhere('slug', $currencyTo)->rate ?? 1;
+
+        $resultPrice = round($price * ($rateFrom / $rateTo), 2);
+
+        return $resultPrice;
+
+    }
+
 
     /**
      * Get by cookie id

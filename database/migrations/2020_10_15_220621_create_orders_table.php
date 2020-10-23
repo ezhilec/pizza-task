@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->string('address', 255)->nullable();
             $table->string('phone', 15);
             $table->decimal('total_cost', 8, 2);
+            $table->string('currency', 255);
         });
     }
 

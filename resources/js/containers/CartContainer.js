@@ -29,13 +29,6 @@ const mapStateToProps = store => {
     }, 0);
 
     const cartPrice = store.cart.list.reduce((acc, item) => {
-        console.log(
-            store,
-            item.price * item.amount,
-            store.currency.list,
-            item.currency,
-            store.currency.currentCurrency
-        )
         const convertedPrice = convertCurrency(
             item.price * item.amount,
             store.currency.list,

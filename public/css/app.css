@@ -11193,6 +11193,10 @@ header .header-right-actions .cart-button img {
   width: 16px;
 }
 
+header .header-right-actions .cart-button:hover img {
+  filter: none;
+}
+
 .products .product .product-img {
   width: 100%;
 }

@@ -10,7 +10,7 @@ export const getProducts = () => async dispatch => {
     });
 
     try {
-        const response = await axios.get('api/v1/products');
+        const response = await axios.get('/api/v1/products');
 
         if (response.data.status === 'ok') {
             dispatch({
@@ -27,7 +27,7 @@ export const getProducts = () => async dispatch => {
     } catch (e) {
         dispatch({
             type: GET_PRODUCTS_ERROR,
-            payload: e,
+            payload: 'Server error',
         });
     }
 

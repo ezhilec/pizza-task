@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import App from "../components/App";
 import {getCart} from "../actions/CartActions";
 import {getCurrencies} from "../actions/CurrencyActions";
+import {getUser} from "../actions/UserActions";
 
 class HeaderContainer extends React.Component {
     render() {
@@ -11,6 +12,7 @@ class HeaderContainer extends React.Component {
                 isLogged={this.props.isLogged}
                 getCart={this.props.getCart}
                 getCurrencies={this.props.getCurrencies}
+                getUser={this.props.getUser}
             />
         )
     }
@@ -26,6 +28,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getCart: () => dispatch(getCart()),
         getCurrencies: () => dispatch(getCurrencies()),
+        getUser: () => dispatch(getUser()),
     }
 };
 

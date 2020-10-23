@@ -59,6 +59,11 @@ class LoginService
         return app()->handle($request);
     }
 
+    /**
+     * Logout user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         $accessToken = auth()->user()->token();
@@ -79,12 +84,20 @@ class LoginService
     /**
      * Register new user
      */
-    public function registerUser()
+    public function registerUser(array $formData)
     {
-        User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'password' => bcrypt(request('password'))
+        $user = User::create([
+            'name' => $formData['name'],
+            'currency' => $formData['currency'],
+            'email' => $formData['email'],
+            'phone' => $formData['phone'],
+            'password' => bcrypt($formData['password'])
         ]);
+
+        if (!$user) {
+            throw new \Exception("Can't create user");
+        }
+
+        return $this->login($formData['email'], $formData['password']);
     }
 }

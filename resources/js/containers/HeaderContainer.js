@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Header from "../components/Header";
+import {submitLogout} from "../actions/LoginActions";
 
 class HeaderContainer extends React.Component {
     render() {
@@ -8,6 +9,7 @@ class HeaderContainer extends React.Component {
             <Header
                 isLogged={this.props.isLogged}
                 cartCount={this.props.cartCount}
+                submitLogout={this.props.submitLogout}
             />
         )
     }
@@ -25,7 +27,9 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        submitLogout: () => dispatch(submitLogout()),
+    }
 };
 
 export default connect(

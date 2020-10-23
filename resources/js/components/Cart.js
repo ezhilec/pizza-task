@@ -34,7 +34,7 @@ export class Cart extends React.Component {
                 {this.props.cartItems.map((item) => {
                     return (
                         <CartItem
-                            key = {item.product.id}
+                            key={item.product.id}
                             item={item}
                             updateCart={this.props.updateCart}
                             currencies={this.props.currencies}
@@ -43,20 +43,16 @@ export class Cart extends React.Component {
                     );
                 })}
 
-                <div className={"cart-totals"}>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="cart-total-count">
-                                Goods count: {this.props.cartCount}
-                            </div>
-                            <div className="cart-subtotal-price">
-                                Goods total: {this.props.currentCurrency} {this.props.cartPrice}
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-
-                        </div>
+                <div className={"cart-totals text-right"}>
+                    <div className="cart-total-count mb-2 font-weight-bold">
+                        Goods count: {this.props.cartCount}
                     </div>
+                    <div className="cart-subtotal-price mb-2 font-weight-bold">
+                        Subtotal: {this.props.currentCurrency} {this.props.cartPrice}
+                    </div>
+                    <Link to="/order" className="btn btn-success">
+                        Checkout
+                    </Link>
                 </div>
             </div>
         );

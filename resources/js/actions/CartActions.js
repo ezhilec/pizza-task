@@ -13,7 +13,7 @@ export const getCart = (payload) => async dispatch => {
     });
 
     try {
-        const response = await axios.get('api/v1/cart');
+        const response = await axios.get('/api/v1/cart');
 
         if (response.data.status === 'ok') {
             dispatch({
@@ -36,13 +36,8 @@ export const getCart = (payload) => async dispatch => {
 };
 
 export const updateCart = (productId, amount, plus) => async dispatch => {
-
-    // dispatch({
-    //     type: UPDATE_CART_REQUEST
-    // });
-
     try {
-        const response = await axios.put(`api/v1/cart/${productId}`, {
+        const response = await axios.put(`/api/v1/cart/${productId}`, {
             amount,
             plus: plus
         });
@@ -62,7 +57,7 @@ export const updateCart = (productId, amount, plus) => async dispatch => {
     } catch (e) {
         dispatch({
             type: UPDATE_CART_ERROR,
-            payload: e,
+            payload: 'Server error'
         });
     }
 };

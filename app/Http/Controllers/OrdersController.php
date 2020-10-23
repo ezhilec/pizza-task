@@ -2,47 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Services\UserService;
+use App\Http\Requests\OrderRequest;
+use App\Services\CartService;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
-class UserController extends BaseController
+class OrdersController extends BaseController
 {
-    private $userService;
+    private $orderService;
+
+    private $cartService;
 
     public function __construct(
-        UserService $userService
+        OrderService $orderService,
+        CartService $cartService
     )
     {
-        $this->userService = $userService;
+        $this->orderService = $orderService;
+        $this->cartService = $cartService;
     }
 
     /**
-     * Show user json
+     * Show user orders
      *
      * @param Request $request
      * @return mixed
      */
-    public function show(Request $request)
+    public function index(Request $request)
     {
         try {
-            $user = $this->userService->getCurrent();
+            $orders = $this->orderService->getUserOrders();
 
-            return response()->apiSuccess($user);
+            return response()->apiSuccess($orders);
         } catch (\Exeption $e) {
             return response()->apiFail($e->getMessage());
         }
     }
 
     /**
-     * Update user
+     * Add order
      *
-     * @param UserRequest $request
+     * @param OrderRequest $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function update(UserRequest $request)
+    public function store(OrderRequest $request)
     {
         $formData = [
             'email' => $request->get('email'),
@@ -51,11 +56,16 @@ class UserController extends BaseController
             'address' => $request->get('address'),
             'phone' => $request->get('phone'),
             'currency' => $request->get('currency'),
-            'delivery_type' => $request->get('deliveryType')
+            'deliveryType' => $request->get('deliveryType')
         ];
 
         try {
-            return $this->userService->updateUser($formData);
+            $cart = $this->cartService->getCurrent();
+            $user = $request->user();
+
+            $order = $this->orderService->addOrder($formData, $cart, $user);
+
+            return response()->apiSuccess($order);
         } catch (\Exeption $e) {
             return response()->apiFail($e->getMessage());
         }
