@@ -7,7 +7,7 @@ import {UserProfile} from '../components/UserProfile'
 class UserProfileContainer extends React.Component {
     render() {
         const {isLoading, error, name, email, phone, password, password_confirmation}
-                = this.props.user;
+            = this.props.user;
         return (
             <UserProfile
                 updateUser={this.props.updateUser}

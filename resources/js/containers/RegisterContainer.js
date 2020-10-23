@@ -6,7 +6,7 @@ import {Register} from '../components/Register'
 class RegisterContainer extends React.Component {
     render() {
         const {isLoading, error, name, email, phone, password, password_confirmation}
-                = this.props.registerForm;
+            = this.props.registerForm;
         return (
             <Register
                 submitRegister={this.props.submitRegister}

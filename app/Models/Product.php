@@ -22,11 +22,12 @@ class Product extends Model
 
     const IMAGES_PATH = '/images/pizza/';
 
-    public function carts() {
+    public function carts()
+    {
         return $this->belongsToMany('App\Models\Cart', 'carts_products')
-                    ->using('App\Models\CartProduct')
-                    ->withPivot('amount', 'price', 'currency')
-                    ->withTimestamps();
+            ->using('App\Models\CartProduct')
+            ->withPivot('amount', 'price', 'currency')
+            ->withTimestamps();
     }
 
     /**
@@ -39,7 +40,7 @@ class Product extends Model
 
     public function getImageUrlAttribute()
     {
-        return self::IMAGES_PATH.$this->image;
+        return self::IMAGES_PATH . $this->image;
     }
 
 

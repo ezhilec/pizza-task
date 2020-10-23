@@ -11,7 +11,7 @@ export const convertCurrency = (price, currencies, currencyFrom, currencyTo) => 
     const rateTo = currencies.find(item => item.slug === currencyTo).rate || 1;
 
     const resultPrice = parseFloat(price * (rateFrom / rateTo))
-                        .toFixed(2);
+        .toFixed(2);
 
     return +resultPrice;
 }

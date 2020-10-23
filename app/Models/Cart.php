@@ -34,9 +34,9 @@ class Cart extends Model
     public function products()
     {
         return $this->belongsToMany('App\Models\Product', 'carts_products')
-                    ->using('App\Models\CartProduct')
-                    ->withPivot('amount', 'price', 'currency')
-                    ->withTimestamps();
+            ->using('App\Models\CartProduct')
+            ->withPivot('amount', 'price', 'currency')
+            ->withTimestamps();
     }
 
     /**

@@ -41,9 +41,9 @@ export class OrdersHistory extends React.Component {
                                 <div className="cart-product-img col-md-5">
                                     Goods:
                                     <ul>
-                                    {this.props.orders.map((product) => (
-                                        <li>{product.name}</li>
-                                    ))}
+                                        {this.props.orders.map((product) => (
+                                            <li>{product.name}</li>
+                                        ))}
                                     </ul>
                                 </div>
                                 <div className="cart-product-img col-md-2">

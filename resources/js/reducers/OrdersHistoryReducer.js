@@ -16,7 +16,7 @@ export function ordersHistoryReducer(state = initialState, action) {
             return {...state, error: null, isLoading: true};
 
         case GET_ORDERS_SUCCESS:
-            return {...state, list:action.payload, isLoading: false};
+            return {...state, list: action.payload, isLoading: false};
 
         case GET_ORDERS_ERROR:
             return {...state, error: action.payload, isLoading: false};

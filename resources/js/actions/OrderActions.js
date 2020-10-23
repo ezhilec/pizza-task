@@ -33,7 +33,7 @@ export const submitOrder = (data) => async dispatch => {
             deliveryType: deliveryType,
             currency: window.localStorage.getItem('currency')
         });
-console.log(444,response)
+        console.log(444, response)
         if (response.data.status === 'ok') {
             dispatch({
                 type: SUBMIT_ORDER_SUCCESS,

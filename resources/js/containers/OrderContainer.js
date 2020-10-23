@@ -18,7 +18,7 @@ class OrderContainer extends React.Component {
         }
 
         const {isLoading, error, name, surname, address, email, phone, deliveryType, orderId}
-                = this.props.orderForm;
+            = this.props.orderForm;
         return (
             <Order
                 submitOrder={this.props.submitOrder}
