@@ -16,10 +16,11 @@
     <meta name="theme-color" content="#ffffff">
     <title>Pizza task</title>
 
-    <link href="{{ asset("css/app.css") }}" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+
 </head>
 <body class="h-100">
 <div id="app" class="d-flex flex-column h-100"></div>
-<script src="{{ asset("js/app.js") }}"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
