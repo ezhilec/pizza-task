@@ -54,7 +54,7 @@ class CartItem extends React.Component {
 
                     <div className="cart-product-name col-md-3">
                         <h2 className="h4 product-name">
-                            <Link to={`/catalog/${item.product.slug}`}>{item.product.name}</Link>
+                            {item.product.name}
                         </h2>
                     </div>
 

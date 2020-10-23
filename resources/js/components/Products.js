@@ -21,7 +21,7 @@ export class Products extends React.Component {
         }
 
         return (
-            <div className="products row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div className="products row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 g-3">
                 {this.props.products.map((product) => {
 
                     const addedInCart = this.props.cartProducts.find((item) => {

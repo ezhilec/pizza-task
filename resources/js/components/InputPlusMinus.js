@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 class InputPlusMinus extends React.Component {
     render() {
         return (
-            <div className="input-group mb-3">
+            <div className="input-group mb-3 input-plus-minis">
                 <button
                     className="btn btn-outline-secondary"
                     type="button"

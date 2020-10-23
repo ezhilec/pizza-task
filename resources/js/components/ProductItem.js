@@ -53,16 +53,18 @@ class ProductItem extends React.Component {
 
                         <div className="product-name">
                             <h2 className="h4 d-inline-block">
-                                <Link to={`/catalog/${product.slug}`}>{product.name}</Link>
+                                {product.name}
                             </h2>
-
                             {this.props.amountInCart &&
                             <div className="badge bg-success ml-2">
                                 Added {this.props.amountInCart}
                             </div>
                             }
                         </div>
-                        <p className={"h6"}>
+                        <p className="muted">
+                            {product.description}
+                        </p>
+                        <p className={"h5"}>
                             <CurrencyFormat
                                 price={+product.price}
                                 currencies={this.props.currencies}
@@ -70,7 +72,7 @@ class ProductItem extends React.Component {
                                 currencyTo={this.props.currentCurrency}/>
                         </p>
                         <div className="row">
-                            <div className="col-4">
+                            <div className="col-md-5">
                                 <InputPlusMinus
                                     value={this.state.amount}
                                     handlePlus={this.handlePlus}
@@ -79,7 +81,7 @@ class ProductItem extends React.Component {
 
                             </div>
 
-                            <div className="col-8">
+                            <div className="col-md-7">
                                 {!this.props.isAddedToCart ?
                                     <a className={"btn btn-primary"}
                                        onClick={this.handleAddToCart}>

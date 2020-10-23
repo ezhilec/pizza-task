@@ -61148,9 +61148,7 @@ var CartItem = /*#__PURE__*/function (_React$Component) {
         className: "cart-product-name col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "h4 product-name"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-        to: "/catalog/".concat(item.product.slug)
-      }, item.product.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, item.product.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cart-product-price-one col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CurrencyFormat__WEBPACK_IMPORTED_MODULE_4__["default"], {
         price: +item.price,
@@ -61764,7 +61762,7 @@ var InputPlusMinus = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group mb-3"
+        className: "input-group mb-3 input-plus-minis"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-outline-secondary",
         type: "button",
@@ -62458,12 +62456,12 @@ var ProductItem = /*#__PURE__*/function (_React$Component) {
         className: "product-name"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "h4 d-inline-block"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-        to: "/catalog/".concat(product.slug)
-      }, product.name)), this.props.amountInCart && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, product.name), this.props.amountInCart && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "badge bg-success ml-2"
       }, "Added ", this.props.amountInCart)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "h6"
+        className: "muted"
+      }, product.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "h5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CurrencyFormat__WEBPACK_IMPORTED_MODULE_4__["default"], {
         price: +product.price,
         currencies: this.props.currencies,
@@ -62472,14 +62470,14 @@ var ProductItem = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-4"
+        className: "col-md-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputPlusMinus__WEBPACK_IMPORTED_MODULE_3__["default"], {
         value: this.state.amount,
         handlePlus: this.handlePlus,
         handleMinus: this.handleMinus,
         handleInputChange: this.handleInputChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-8"
+        className: "col-md-7"
       }, !this.props.isAddedToCart ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "btn btn-primary",
         onClick: this.handleAddToCart
@@ -62579,7 +62577,7 @@ var Products = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "products row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
+        className: "products row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 g-3"
       }, this.props.products.map(function (product) {
         var addedInCart = _this.props.cartProducts.find(function (item) {
           return item.product.id === product.id;
